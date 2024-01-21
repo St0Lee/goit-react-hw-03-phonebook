@@ -9,6 +9,22 @@ class MyPhonebook extends Component {
         contacts: [],
         filter: ""
     };
+    
+    componentDidMount() {
+        const contacts = JSON.parse(localStorage.getItem("phonebook"));
+            if(contacts?.length){
+                this.setState({
+                    contacts,
+                })
+            }
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        const {contacts} = this.state;
+        if(prevState.contacts.length !== contacts.length) {
+        localStorage.setItem("phonebook", JSON.stringify(this.state.contacts));
+        }
+    };
 
     isDublicate ({name, number}) {
         const {contacts} = this.state;
